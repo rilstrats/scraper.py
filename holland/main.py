@@ -1,20 +1,33 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = 'https://www.churchofjesuschrist.org/study/general-conference/speakers/jeffrey-r-holland?lang=eng'
+PREFIX = 'https://www.churchofjesuschrist.org'
+URL = PREFIX + '/study/general-conference/speakers/jeffrey-r-holland?lang=eng'
+
 
 page = requests.get(URL)
 soup = BeautifulSoup(page.content,'html.parser')
 
 main = soup.find(id='main')
 
-raw_links = main.find_all('a')
+links = main.find_all('a')
 
-links = []
-for link in raw_links:
-    links.append(f'https://www.churchofjesuschrist.org/{link["href"]}')
+for link in links:
+    print(PREFIX + link['href'])
+    sub_page = requests.get(PREFIX + link['href'])
+    sub_soup = BeautifulSoup(sub_page.content, 'html.parser')
 
+    title = sub_soup.find(id='title1')
+    print(title)
 
+    bodies = sub_soup.find_all('div', class_='body-block')
+
+    for body in bodies:
+        ps = body.find_all('p')
+
+        for p in ps:
+            print(p)
+    
 
 
 
