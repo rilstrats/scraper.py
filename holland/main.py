@@ -2,7 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 
 PREFIX = 'https://www.churchofjesuschrist.org'
-URL = PREFIX + '/study/general-conference/speakers/jeffrey-r-holland?lang=eng'
+# URL = PREFIX + '/study/general-conference/speakers/jeffrey-r-holland?lang=eng'
+URL = PREFIX + '/study/general-conference/speakers/russell-m-nelson?lang=eng'
 
 
 page = requests.get(URL)
