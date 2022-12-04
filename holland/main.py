@@ -12,21 +12,29 @@ main = soup.find(id='main')
 
 links = main.find_all('a')
 
-for link in links:
-    print(PREFIX + link['href'])
-    sub_page = requests.get(PREFIX + link['href'])
-    sub_soup = BeautifulSoup(sub_page.content, 'html.parser')
+with open('output.txt','w') as outfile:
 
-    title = sub_soup.find(id='title1')
-    print(title)
+    for link in links:
+        print(PREFIX + link['href'])
+        sub_page = requests.get(PREFIX + link['href'])
+        sub_soup = BeautifulSoup(sub_page.content, 'html.parser')
 
-    bodies = sub_soup.find_all('div', class_='body-block')
+        title = sub_soup.find(id='title1')
+        # print(title.text)
+        outfile.writelines(title.text.upper()+'\n\n')
 
-    for body in bodies:
-        ps = body.find_all('p')
+        bodies = sub_soup.find_all('div', class_='body-block')
 
-        for p in ps:
-            print(p)
+        for body in bodies:
+            ps = body.find_all('p')
+
+            for p in ps:
+                # print(p.text)
+                outfile.writelines(p.text+'\n\n')
+
+        outfile.write('\n\n')
+
+    outfile.writelines('')
     
 
 
